@@ -12,4 +12,4 @@ echo "=== Building ==="
 cmake --build build --parallel
 
 echo "=== Starting server on port ${1:-7777} ==="
-exec ./build/virt-off-server "${1:-7777}"
+exec ./build/virt-off-server --port "${1:-7777}"

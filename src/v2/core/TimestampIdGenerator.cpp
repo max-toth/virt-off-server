@@ -1,4 +1,4 @@
-#include "core/TimestampIdGeneratorV2.hpp"
+#include "v2/core/TimestampIdGenerator.hpp"
 
 #include <chrono>
 
@@ -10,12 +10,14 @@ constexpr const char* kPrefix = "player-";
 constexpr const char* kSeparator = "-";
 }  // namespace
 
-uint64_t TimestampIdGeneratorV2::current_millis() {
+namespace v2 {
+
+uint64_t TimestampIdGenerator::current_millis() {
     using namespace std::chrono;
     return static_cast<uint64_t>(duration_cast<milliseconds>(system_clock::now().time_since_epoch()).count());
 }
 
-std::string TimestampIdGeneratorV2::next() {
+std::string TimestampIdGenerator::next() {
     std::lock_guard<std::mutex> lock(mutex_);
 
     const uint64_t millis = current_millis();
@@ -32,3 +34,5 @@ std::string TimestampIdGeneratorV2::next() {
     }
     return id;
 }
+
+}  // namespace v2

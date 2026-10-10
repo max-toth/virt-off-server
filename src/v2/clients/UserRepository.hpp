@@ -1,16 +1,18 @@
 #pragma once
 
-#include "clients/IUserRepositoryV2.hpp"
+#include "v2/clients/IUserRepository.hpp"
 
 #include <mutex>
 #include <unordered_map>
 
-/// Thread-safe V2 client registry keeping full UserInfo records.
+namespace v2 {
+
+/// Thread-safe client registry keeping full UserInfo records.
 ///
 /// Two indexes are kept in sync under a single mutex:
 ///   by_id_       — id -> record, for direct send / lookup by id
 ///   by_endpoint_ — endpoint -> id, for identifying the sender of a packet
-class UserRepositoryV2 final : public IUserRepositoryV2 {
+class UserRepository final : public IUserRepository {
 public:
     void add(UserInfo user) override;
 
@@ -36,3 +38,5 @@ private:
     /// Secondary index: endpoint -> id.
     std::unordered_map<udp::endpoint, std::string> by_endpoint_;
 };
+
+}  // namespace v2

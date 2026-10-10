@@ -1,4 +1,4 @@
-#include "handlers/ConnectHandlerV2.hpp"
+#include "v2/handlers/ConnectHandler.hpp"
 
 #include "net/ProtocolConstants.hpp"
 
@@ -8,12 +8,14 @@
 #include <utility>
 #include <vector>
 
-ConnectHandlerV2::ConnectHandlerV2(IIdGeneratorV2& id_gen, IUserRepositoryV2& users, ITransport& transport)
+namespace v2 {
+
+ConnectHandler::ConnectHandler(IIdGenerator& id_gen, IUserRepository& users, ITransport& transport)
     : id_gen_(id_gen), users_(users), transport_(transport) {
-    logger_->info("ConnectHandlerV2 created");
+    logger_->info("ConnectHandler (v2) created");
 }
 
-void ConnectHandlerV2::handle(const udp::endpoint& client_endpoint) {
+void ConnectHandler::handle(const udp::endpoint& client_endpoint) {
     const std::string id = id_gen_.next();
     const auto now = std::chrono::system_clock::now();
 
@@ -34,3 +36,5 @@ void ConnectHandlerV2::handle(const udp::endpoint& client_endpoint) {
 
     transport_.send_to(client_endpoint, response);
 }
+
+}  // namespace v2

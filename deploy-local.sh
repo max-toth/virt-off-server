@@ -88,7 +88,7 @@ sshpass -e ssh "${SSH_OPTS[@]}" "$REMOTE" << REMOTE_CMDS
     chmod +x "\$BIN"
 
     echo "  PID: \$BIN"
-    nohup "\$BIN" "${PORT}" > ~/virt-off-server.log 2>&1 &
+    nohup "\$BIN" --port "${PORT}" > ~/virt-off-server.log 2>&1 &
     echo "  Started (PID \$!) on port ${PORT}"
 REMOTE_CMDS
 
