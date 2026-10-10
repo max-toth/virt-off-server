@@ -1,0 +1,21 @@
+{
+  Language:        Cpp
+  BasedOnStyle:    Google
+  ColumnLimit:     120
+  IndentWidth:     4
+  AccessModifierOffset: -4
+  NamespaceIndentation: None
+  PointerAlignment: Left
+  DerivePointerAlignment: false
+  AllowShortFunctionsOnASingleLine: Inline
+  BreakConstructorInitializers: BeforeComma
+  ConstructorInitializerIndentWidth: 4
+  ContinuationIndentWidth: 4
+  IncludeBlocks: Regroup
+  IncludeCategories:
+    - Regex: '^<.*'
+      Priority: 4
+    - Regex: '^".*'
+      Priority: 3
+  SortIncludes: CaseSensitive
+}

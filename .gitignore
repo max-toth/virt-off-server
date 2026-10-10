@@ -1,0 +1,9 @@
+build/
+build-x86_64/
+.cache/
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+.deploy-config
