@@ -1,10 +1,9 @@
 #pragma once
 
+#include <asio/ip/udp.hpp>
 #include <cstdint>
 #include <functional>
 #include <optional>
-
-#include <asio/ip/udp.hpp>
 
 using asio::ip::udp;
 
@@ -27,6 +26,5 @@ struct IClientRepository {
 
     /// Invokes `fn(id, endpoint)` for every connected client whose ID is
     /// NOT equal to `exclude_id`. Useful for relay broadcasting.
-    virtual void for_each_except(uint64_t exclude_id,
-                                 std::function<void(uint64_t, const udp::endpoint&)> fn) const = 0;
+    virtual void for_each_except(uint64_t exclude_id, std::function<void(uint64_t, const udp::endpoint&)> fn) const = 0;
 };

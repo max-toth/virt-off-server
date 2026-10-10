@@ -1,14 +1,13 @@
 #pragma once
 
+#include "clients/IClientRepository.hpp"
+#include "core/ConsoleLogger.hpp"
 #include "handlers/IRelayHandler.hpp"
+#include "net/ITransport.hpp"
 
 #include <cstdint>
 #include <cstring>
 #include <vector>
-
-#include "core/ConsoleLogger.hpp"
-#include "clients/IClientRepository.hpp"
-#include "net/ITransport.hpp"
 
 class RelayHandler final : public IRelayHandler {
 public:

@@ -1,19 +1,17 @@
 #pragma once
 
-#include "net/ITransport.hpp"
 #include "core/ConsoleLogger.hpp"
-
-#include <asio/io_context.hpp>
-#include <asio/strand.hpp>
+#include "net/ITransport.hpp"
 
 #include <array>
+#include <asio/io_context.hpp>
+#include <asio/strand.hpp>
 #include <memory>
 
 class UdpTransport final : public ITransport {
 public:
     explicit UdpTransport(asio::io_context& io_ctx)
-        : io_ctx_(io_ctx), strand_(asio::make_strand(io_ctx)), socket_(io_ctx)
-    {
+        : io_ctx_(io_ctx), strand_(asio::make_strand(io_ctx)), socket_(io_ctx) {
         logger_->info("UdpTransport created");
     }
 
@@ -21,8 +19,7 @@ public:
 
     void send_to(const udp::endpoint& dest, std::span<const uint8_t> data) override;
 
-    void set_receive_callback(
-        std::function<void(udp::endpoint, std::vector<uint8_t>)> on_packet) override;
+    void set_receive_callback(std::function<void(udp::endpoint, std::vector<uint8_t>)> on_packet) override;
 
     void stop() override;
 

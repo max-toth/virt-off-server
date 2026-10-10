@@ -1,11 +1,10 @@
 #pragma once
 
+#include <asio/ip/udp.hpp>
 #include <cstdint>
 #include <functional>
 #include <span>
 #include <vector>
-
-#include <asio/ip/udp.hpp>
 
 using asio::ip::udp;
 

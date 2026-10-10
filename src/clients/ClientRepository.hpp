@@ -30,8 +30,7 @@ public:
 
     std::optional<uint64_t> find_by_endpoint(const udp::endpoint& ep) const override;
 
-    void for_each_except(uint64_t exclude_id,
-                         std::function<void(uint64_t, const udp::endpoint&)> fn) const override;
+    void for_each_except(uint64_t exclude_id, std::function<void(uint64_t, const udp::endpoint&)> fn) const override;
 
 private:
     std::unordered_map<uint64_t, udp::endpoint> by_id_;

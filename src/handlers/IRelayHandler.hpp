@@ -1,9 +1,8 @@
 #pragma once
 
+#include <asio/ip/udp.hpp>
 #include <cstdint>
 #include <span>
-
-#include <asio/ip/udp.hpp>
 
 using asio::ip::udp;
 

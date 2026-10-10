@@ -19,8 +19,7 @@
 /// Thread-safety: не гарантируется — вызывается из одного io_context треда.
 class PacketRouter final : public IPacketRouter {
 public:
-    void register_handler(uint8_t type,
-                          std::function<void(udp::endpoint, std::span<const uint8_t>)> handler) override;
+    void register_handler(uint8_t type, std::function<void(udp::endpoint, std::span<const uint8_t>)> handler) override;
 
     void route(const udp::endpoint& from, std::span<const uint8_t> data) override;
 

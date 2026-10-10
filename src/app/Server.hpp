@@ -1,16 +1,15 @@
 #pragma once
 
-#include <memory>
-
-#include <asio/io_context.hpp>
-
-#include "core/IIdGenerator.hpp"
-#include "core/ConsoleLogger.hpp"
 #include "clients/IClientRepository.hpp"
-#include "net/ITransport.hpp"
-#include "net/IPacketRouter.hpp"
+#include "core/ConsoleLogger.hpp"
+#include "core/IIdGenerator.hpp"
 #include "handlers/IConnectHandler.hpp"
 #include "handlers/IRelayHandler.hpp"
+#include "net/IPacketRouter.hpp"
+#include "net/ITransport.hpp"
+
+#include <asio/io_context.hpp>
+#include <memory>
 
 struct IServer {
     virtual ~IServer() = default;

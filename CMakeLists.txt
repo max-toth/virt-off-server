@@ -19,10 +19,12 @@ FetchContent_MakeAvailable(asio)
 set(CORE_SOURCES
     src/core/ConsoleLogger.cpp
     src/core/MonotonicIdGenerator.cpp
+    src/core/TimestampIdGeneratorV2.cpp
 )
 
 set(CLIENTS_SOURCES
     src/clients/ClientRepository.cpp
+    src/clients/UserRepositoryV2.cpp
 )
 
 set(NET_SOURCES
@@ -32,6 +34,7 @@ set(NET_SOURCES
 
 set(HANDLERS_SOURCES
     src/handlers/ConnectHandler.cpp
+    src/handlers/ConnectHandlerV2.cpp
     src/handlers/RelayHandler.cpp
 )
 

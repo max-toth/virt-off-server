@@ -1,19 +1,15 @@
 #pragma once
 
-#include "handlers/IConnectHandler.hpp"
-#include "core/ConsoleLogger.hpp"
-
-#include "core/IIdGenerator.hpp"
 #include "clients/IClientRepository.hpp"
+#include "core/ConsoleLogger.hpp"
+#include "core/IIdGenerator.hpp"
+#include "handlers/IConnectHandler.hpp"
 #include "net/ITransport.hpp"
 
 class ConnectHandler final : public IConnectHandler {
 public:
-    ConnectHandler(IIdGenerator& id_gen,
-                   IClientRepository& clients,
-                   ITransport& transport)
-        : id_gen_(id_gen), clients_(clients), transport_(transport)
-    {
+    ConnectHandler(IIdGenerator& id_gen, IClientRepository& clients, ITransport& transport)
+        : id_gen_(id_gen), clients_(clients), transport_(transport) {
         logger_->info("ConnectHandler created");
     }
 

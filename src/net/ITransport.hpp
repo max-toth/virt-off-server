@@ -1,11 +1,10 @@
 #pragma once
 
+#include <asio/ip/udp.hpp>
 #include <cstdint>
 #include <functional>
 #include <span>
 #include <vector>
-
-#include <asio/ip/udp.hpp>
 
 using asio::ip::udp;
 
@@ -27,8 +26,7 @@ struct ITransport {
 
     /// Sets a callback invoked on each received packet.
     /// `on_packet(endpoint, payload)`
-    virtual void set_receive_callback(
-        std::function<void(udp::endpoint, std::vector<uint8_t>)> on_packet) = 0;
+    virtual void set_receive_callback(std::function<void(udp::endpoint, std::vector<uint8_t>)> on_packet) = 0;
 
     /// Closes the socket and cancels any outstanding async operations.
     virtual void stop() = 0;
