@@ -28,6 +28,13 @@ public:
 
     void for_each_except(const std::string& exclude_id, const std::function<void(const UserInfo&)>& fn) const override;
 
+    void for_each(const std::function<void(const UserInfo&)>& fn) const override;
+
+    void remove_idle(std::chrono::system_clock::time_point now,
+                     std::chrono::seconds timeout) override;
+
+    size_t size() const override;
+
 private:
     /// Guards both indexes.
     mutable std::mutex mutex_;

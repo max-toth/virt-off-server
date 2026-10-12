@@ -42,6 +42,16 @@ struct IUserRepository {
     /// Invokes `fn` for every user whose id != `exclude_id` (relay broadcast).
     virtual void for_each_except(const std::string& exclude_id,
                                  const std::function<void(const UserInfo&)>& fn) const = 0;
+
+    /// Invokes `fn` for every user (unlike for_each_except — no exclusion).
+    virtual void for_each(const std::function<void(const UserInfo&)>& fn) const = 0;
+
+    /// Removes all users whose `last_seen` is older than `now - timeout`.
+    virtual void remove_idle(std::chrono::system_clock::time_point now,
+                             std::chrono::seconds timeout) = 0;
+
+    /// Returns the number of connected users.
+    virtual size_t size() const = 0;
 };
 
 }  // namespace v2

@@ -17,7 +17,24 @@ void UdpTransport::start(udp::endpoint local) {
         throw std::system_error(ec, "Failed to bind UDP socket");
     }
 
+    // Start tick timer if configured.
+    if (on_tick_ && tick_interval_ms_ > 0) {
+        tick_timer_ = std::make_unique<asio::steady_timer>(io_ctx_);
+        schedule_tick();
+    }
+
     async_receive();
+}
+
+void UdpTransport::schedule_tick() {
+    tick_timer_->expires_after(std::chrono::milliseconds(tick_interval_ms_));
+    tick_timer_->async_wait(asio::bind_executor(strand_, [this](std::error_code ec) {
+        if (ec) return;
+        if (on_tick_) {
+            on_tick_();
+        }
+        schedule_tick();
+    }));
 }
 
 void UdpTransport::send_to(const udp::endpoint& dest, std::span<const uint8_t> data) {
@@ -37,8 +54,16 @@ void UdpTransport::set_receive_callback(std::function<void(udp::endpoint, std::v
     on_packet_ = std::move(on_packet);
 }
 
+void UdpTransport::set_tick_callback(std::function<void()> callback, unsigned int interval_ms) {
+    on_tick_ = std::move(callback);
+    tick_interval_ms_ = interval_ms;
+}
+
 void UdpTransport::stop() {
     std::error_code ec;
+    if (tick_timer_) {
+        tick_timer_->cancel(ec);
+    }
     socket_.close(ec);
 }
 

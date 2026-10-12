@@ -78,8 +78,8 @@ ssh "${SSH_OPTS[@]}" "$REMOTE" << REMOTE_CMDS
     chmod +x "\$BIN"
 
     echo "  PID: \$BIN"
-    nohup "\$BIN" --port "${PORT}" > ~/virt-off-server.log 2>&1 &
-    echo "  Started (PID \$!) on port ${PORT}"
+    nohup "\$BIN" --port "${PORT}" --api v2 --threads 10 > ~/virt-off-server.log 2>&1 &
+    echo "  Started (PID \$!) on port ${PORT} (api v2, 10 threads)"
 REMOTE_CMDS
 
 echo "=== Done ==="

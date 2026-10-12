@@ -6,6 +6,8 @@
 #include "net/ITransport.hpp"
 #include "v2/clients/IUserRepository.hpp"
 #include "v2/core/IIdGenerator.hpp"
+#include "v2/game/GameOrchestrator.hpp"
+#include "v2/game/PropRecord.hpp"
 #include "v2/handlers/IConnectHandler.hpp"
 #include "v2/handlers/IRelayHandler.hpp"
 
@@ -33,6 +35,9 @@ struct ServerDependencies {
     std::unique_ptr<IConnectHandler> connect_handler;
 
     std::unique_ptr<IRelayHandler> relay_handler;
+
+    /// Game-logic orchestrator (prop management, attacks, session monitor).
+    std::unique_ptr<game::GameOrchestrator> game_orchestrator;
 };
 
 /// V2 composition root: registers V2 handlers on the router and runs the
@@ -66,6 +71,8 @@ private:
     std::unique_ptr<IConnectHandler> connect_handler_;
 
     std::unique_ptr<IRelayHandler> relay_handler_;
+
+    std::unique_ptr<game::GameOrchestrator> game_orchestrator_;
 
     uint16_t port_;
 

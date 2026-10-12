@@ -102,4 +102,45 @@ void UserRepository::for_each_except(const std::string& exclude_id,
     }
 }
 
+void UserRepository::for_each(const std::function<void(const UserInfo&)>& fn) const {
+    std::vector<UserInfo> targets;
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        targets.reserve(by_id_.size());
+        for (const auto& [id, user] : by_id_) {
+            targets.push_back(user);
+        }
+    }
+
+    for (const auto& user : targets) {
+        fn(user);
+    }
+}
+
+size_t UserRepository::size() const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    return by_id_.size();
+}
+
+void UserRepository::remove_idle(std::chrono::system_clock::time_point now,
+                                 std::chrono::seconds timeout) {
+    std::lock_guard<std::mutex> lock(mutex_);
+
+    std::vector<std::string> to_remove;
+    for (const auto& [id, user] : by_id_) {
+        const auto elapsed = std::chrono::duration_cast<std::chrono::seconds>(now - user.last_seen);
+        if (elapsed > timeout) {
+            to_remove.push_back(id);
+        }
+    }
+
+    for (const auto& id : to_remove) {
+        const auto it = by_id_.find(id);
+        if (it != by_id_.end()) {
+            by_endpoint_.erase(it->second.endpoint);
+            by_id_.erase(it);
+        }
+    }
+}
+
 }  // namespace v2

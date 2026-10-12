@@ -28,6 +28,11 @@ struct ITransport {
     /// `on_packet(endpoint, payload)`
     virtual void set_receive_callback(std::function<void(udp::endpoint, std::vector<uint8_t>)> on_packet) = 0;
 
+    /// Registers a periodic timer callback on the transport strand.
+    /// `callback` is invoked on the strand every `interval_ms` milliseconds.
+    /// The timer is created lazily on the first call to `start()`.
+    virtual void set_tick_callback(std::function<void()> callback, unsigned int interval_ms) = 0;
+
     /// Closes the socket and cancels any outstanding async operations.
     virtual void stop() = 0;
 };

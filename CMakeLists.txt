@@ -42,6 +42,20 @@ set(APP_SOURCES
     src/app/CliParser.cpp
 )
 
+set(V2_GAME_SOURCES
+    src/v2/game/PlayerState.cpp
+    src/v2/game/PropRepository.cpp
+    src/v2/game/AttackGate.cpp
+    src/v2/game/BroadcastHandler.cpp
+    src/v2/game/SessionMonitor.cpp
+    src/v2/game/ManifestHandler.cpp
+    src/v2/game/PickupHandler.cpp
+    src/v2/game/ReleaseHandler.cpp
+    src/v2/game/PropStateHandler.cpp
+    src/v2/game/AttackHandler.cpp
+    src/v2/game/GameOrchestrator.cpp
+)
+
 set(V2_SOURCES
     src/v2/core/TimestampIdGenerator.cpp
     src/v2/clients/UserRepository.cpp
@@ -49,6 +63,7 @@ set(V2_SOURCES
     src/v2/handlers/RelayHandler.cpp
     src/v2/app/Server.cpp
     src/v2/app/ServerBuilder.cpp
+    ${V2_GAME_SOURCES}
 )
 
 # ---- Library ----
