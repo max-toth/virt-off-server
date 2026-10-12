@@ -9,13 +9,10 @@ set -euo pipefail
 # host via rsync+ssh. The server is started as a background process.
 #
 # Prerequisites:
-#   1. CMake + Xcode Command Line Tools installed locally
-#   2. sshpass installed locally (brew install sshpass)
+#   - CMake + Xcode Command Line Tools installed locally
 #
 # Usage:
 #   ./deploy-local.sh [port]
-#
-# If SSHPASS is not set, the script will prompt for the password.
 #
 # On first run you may need to accept the host key:
 #   ssh max_tolstykh@192.168.1.111 "echo ok"
@@ -38,13 +35,6 @@ REMOTE_DIR="${REMOTE_DIR:-virt-off-server}"
 
 REMOTE="${REMOTE_USER}@${REMOTE_HOST}"
 
-# ---- Prompt for password if not set ----
-if [ -z "${SSHPASS:-}" ]; then
-  read -r -s -p "SSH password for ${REMOTE}: " SSHPASS
-  echo
-  export SSHPASS
-fi
-
 SSH_OPTS=(-o StrictHostKeyChecking=no -o ConnectTimeout=10)
 
 # ---- Step 1: Build x86_64 binary ----
@@ -66,15 +56,15 @@ echo "  Binary: $(file "$BINARY" | sed 's/.*: //')"
 
 # ---- Step 2: Create remote dir ----
 echo "=== Preparing remote ==="
-sshpass -e ssh "${SSH_OPTS[@]}" "$REMOTE" "mkdir -p \"$REMOTE_DIR\""
+ssh "${SSH_OPTS[@]}" "$REMOTE" "mkdir -p \"$REMOTE_DIR\""
 
 # ---- Step 3: Copy binary ----
 echo "=== Deploying ==="
-sshpass -e rsync -az --no-perms "$BINARY" "${REMOTE}:${REMOTE_DIR}/${BINARY_NAME}"
+rsync -az --no-perms "$BINARY" "${REMOTE}:${REMOTE_DIR}/${BINARY_NAME}"
 
 # ---- Step 4: Kill old process, start new one ----
 echo "=== Starting on remote host:${PORT} ==="
-sshpass -e ssh "${SSH_OPTS[@]}" "$REMOTE" << REMOTE_CMDS
+ssh "${SSH_OPTS[@]}" "$REMOTE" << REMOTE_CMDS
     set -e
     BIN="${REMOTE_DIR}/${BINARY_NAME}"
 
